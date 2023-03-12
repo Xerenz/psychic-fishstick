@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'social_django',
 
-    'users.apps.UserConfig',
-    'links',
+    'apps.users.apps.UserConfig',
+    'apps.links',
 ]
 
 MIDDLEWARE = [
