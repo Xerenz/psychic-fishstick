@@ -9,7 +9,9 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import GoogleButton from 'react-google-button';
 
 const theme = createTheme();
 
@@ -29,7 +31,7 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -51,6 +53,7 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  size='small'
                   autoFocus
                 />
               </Grid>
@@ -61,6 +64,7 @@ export default function SignUp() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
+                  size='small'
                   autoComplete="family-name"
                 />
               </Grid>
@@ -71,6 +75,7 @@ export default function SignUp() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  size='small'
                   autoComplete="email"
                 />
               </Grid>
@@ -82,6 +87,7 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  size='small'
                   autoComplete="new-password"
                 />
               </Grid>
@@ -94,11 +100,22 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container 
+            justifyContent="center">
               <Grid item>
                 <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
+              </Grid>
+            </Grid>
+            <Divider variant='middle' sx={{ my: 2 }}>
+              OR
+            </Divider>
+            <Grid container
+            alignItems='center'
+            justifyContent='center'>
+              <Grid item>
+                <GoogleButton />
               </Grid>
             </Grid>
           </Box>

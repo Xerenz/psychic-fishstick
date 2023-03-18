@@ -6,10 +6,12 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import GoogleButton from 'react-google-button'
 
 const theme = createTheme();
 
@@ -29,7 +31,7 @@ export default function Login() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -47,9 +49,10 @@ export default function Login() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
+              size='small'
               autoFocus
             />
             <TextField
@@ -60,6 +63,7 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
+              size='small'
               autoComplete="current-password"
             />
             <Button
@@ -77,6 +81,16 @@ export default function Login() {
                 <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
+              </Grid>
+            </Grid>
+            <Divider variant='middle' sx={{ my: 2 }}>
+              OR
+            </Divider>
+            <Grid container
+            alignItems='center'
+            justifyContent='center'>
+              <Grid item>
+                <GoogleButton />
               </Grid>
             </Grid>
           </Box>
