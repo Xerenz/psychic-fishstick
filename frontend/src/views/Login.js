@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,17 +13,38 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import GoogleButton from 'react-google-button'
+import useSnackStore from '../store/SnackStore';
+import useAuthStore from '../store/AuthStore';
+import { loginUrl, authAxios } from '../api';
 
 const theme = createTheme();
 
 export default function Login() {
+  const {showSnackbar} = useSnackStore((state) => state)
+  const {authenticate} = useAuthStore((state) => state)
+  const navigate = useNavigate()
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      email: formData.get('email'),
+      password: formData.get('password'),
+    }
+    authAxios.post(loginUrl, data)
+    .then((response) => {
+      const token = response.data.access_token
+      if (token) {
+        authenticate(token)
+        showSnackbar('Welcome to HobbyMate!', 'success')
+        navigate('/dashboard')
+      }
+    })
+    .catch((error) => {
+      console.log('Error', error)
+      const {detail} = error.response.data
+      showSnackbar(detail, 'error')
+    })
   };
 
   return (
@@ -43,7 +65,7 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required

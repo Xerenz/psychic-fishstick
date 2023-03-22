@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,17 +13,40 @@ import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import GoogleButton from 'react-google-button';
+import useSnackStore from '../store/SnackStore';
+import useAuthStore from '../store/AuthStore';
+import { authAxios, registerUrl } from '../api';
 
 const theme = createTheme();
 
 export default function SignUp() {
+  const {showSnackbar} = useSnackStore((state) => state)
+  const {authenticate} = useAuthStore((state) => state)
+  const navigate = useNavigate()
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      first_name: formData.get('firstName'),
+      last_name: formData.get('lastName'),
+      email: formData.get('email'),
+      password: formData.get('password')
+    }
+    authAxios.post(registerUrl, data)
+    .then((response) => {
+      const token = response.data.access_token
+      if (token) {
+        authenticate(token)
+        showSnackbar('Welcome to HobbyMate!', 'success')
+        navigate('/dashboard')
+      }
+    })
+    .catch((error) => {
+      console.log('Error', error)
+      const {detail} = error.response.data
+      showSnackbar(detail, 'error')
+    })
   };
 
   return (
@@ -52,7 +76,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="First name"
                   size='small'
                   autoFocus
                 />
@@ -62,7 +86,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label="Last name"
                   name="lastName"
                   size='small'
                   autoComplete="family-name"
@@ -73,7 +97,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   size='small'
                   autoComplete="email"

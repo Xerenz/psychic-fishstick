@@ -8,11 +8,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   });
 
 export default function CustomSnackbar() {
-    // const message = useSnackStore( state => state.message )
-    // const severity = useSnackStore( state => state.severity )
-    // const open = useSnackStore( state => state.open )
-    // const closeSnackbar = useSnackStore( state => state.closeSnackbar )
-
     const {message, severity, open, closeSnackbar} = useSnackStore((state) => state)
 
     const handleClose = ( event, reason ) => {
@@ -25,8 +20,13 @@ export default function CustomSnackbar() {
     return (
         <Snackbar open={open} 
         autoHideDuration={6000} 
-        onClose={handleClose}>
-            <Alert severity={severity}>
+        onClose={handleClose}
+        anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+        }}>
+            <Alert severity={severity}
+            onClose={handleClose}>
                 { message }
             </Alert>
         </Snackbar>
