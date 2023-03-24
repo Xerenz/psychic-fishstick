@@ -17,8 +17,8 @@ class Hobby(models.Model):
     max_number_of_participants = models.PositiveIntegerField(
         default=1,
         validators=[
-            MinValueValidator(1),
-            MaxValueValidator(10),
+            MinValueValidator(2),
+            MaxValueValidator(30),
         ]
     )
     participants = models.ManyToManyField(User, 
