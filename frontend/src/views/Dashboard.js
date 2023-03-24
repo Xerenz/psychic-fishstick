@@ -4,6 +4,7 @@ import { Container } from '@mui/system';
 import Authenticate from '../components/Authenticate'
 import { Navbar } from '../components/Navbar';
 import Hobbies from '../components/Hobbies';
+import Create from '../components/Create';
 
 export default function Dashboard() {
   return (
@@ -11,8 +12,10 @@ export default function Dashboard() {
         <Navbar />
         <Container>
             <Routes>
-                <Route path='/' 
+                <Route path='' 
                 element={<Hobbies />} />
+                <Route path='create-event'
+                element={<Create />} />
             </Routes>
         </Container>
     </Authenticate>

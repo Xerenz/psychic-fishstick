@@ -6,7 +6,6 @@ import { Grid, Typography } from '@mui/material';
 
 export const HobbyCard = ({ hobby }) => (
     <Grid item>
-        {console.log()}
         <Card sx={{ minWidth: 325 }}>
             <CardContent>
                 <Typography variant="h5" component="div">
