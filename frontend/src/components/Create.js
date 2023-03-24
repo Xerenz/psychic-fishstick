@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { useNavigate } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/system/Box'
 import Typography from '@mui/material/Typography'
@@ -9,9 +10,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button'
+import useSnackStore from '../store/SnackStore'
 import { authAxios, hobbyUrl } from '../api';
 
 export default function Create() {
+    let navigate = useNavigate()
+    const {showSnackbar} = useSnackStore((state) => state)
+
     const [errorText, setErrorText] = useState('')
     const [error, setError] = useState(false)
     const [durationErrorText, setDurationErrorText] = useState('')
@@ -32,7 +37,6 @@ export default function Create() {
     }
 
     const formatDuration = (value) => {
-
         let hh = 0
         let mm = 0
 
@@ -59,10 +63,16 @@ export default function Create() {
 
         authAxios.post(hobbyUrl, data)
         .then((response) => {
-            console.log(response)
+            const {data} = response
+            showSnackbar('Your new event has been created!', 
+            'success')
+            navigate(`/dashboard/schedule/${data.id}`)
         })
         .catch((error) => {
             console.log('Error', error)
+            const message = error.response?.data?.detail
+            showSnackbar(message | 'Something went wrong', 
+            'error')
         })
     }
 
