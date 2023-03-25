@@ -23,6 +23,10 @@ class Hobby(models.Model):
     )
     participants = models.ManyToManyField(User, 
                     related_name='my_hobbies')
+
+    @property
+    def number_of_participants(self):
+        return self.participants.count()
     
     def __str__(self):
         return self.name
