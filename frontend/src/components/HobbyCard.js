@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -11,17 +11,25 @@ import RssFeedIcon from '@mui/icons-material/RssFeed';
 import {ReactComponent as LocationIcon} from '../assets/Location.svg'
 import {ReactComponent as Person} from '../assets/Person.svg'
 import {ReactComponent as Calendar} from '../assets/Calendar.svg'
-import RssFeed from '@mui/icons-material/RssFeed';
+
 
 export const HobbyCard = ({ hobby }) => {
+    let navigate = useNavigate()
+
+    const handleClick = () => {
+        navigate(`schedule/${hobby.id}`)
+    }
+
     return (
         <Grid item>
             {console.log(hobby)}
             <Card sx={{ 
                 minWidth: 325,
                 backgroundColor: '#F6F5F8',
-                borderRadius: '20px'
-            }}>
+                borderRadius: '20px',
+                cursor: 'pointer'
+            }}
+            onClick={handleClick}>
                 <CardContent>
                     <IconButton sx={{
                         marginLeft: '90%'
