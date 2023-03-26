@@ -14,6 +14,7 @@ export const registerUrl = `${baseUrl}/api/users/register`
 export const loginUrl = `${baseUrl}/api/users/login`
 export const logoutUrl = `${baseUrl}/api/users/logout`
 export const hobbyUrl = `${baseUrl}/api/hobbies/`
+export const createLinkUrl = `${baseUrl}/api/links/create`
 
 export let authAxios = axios.create()
 authAxios.interceptors.request.use((config) => {

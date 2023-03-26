@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,6 +23,7 @@ export default function Login() {
   const {showSnackbar} = useSnackStore((state) => state)
   const {authenticate} = useAuthStore((state) => state)
   const navigate = useNavigate()
+  const location = useLocation()
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -37,7 +38,12 @@ export default function Login() {
       if (token) {
         authenticate(token)
         showSnackbar('Welcome to HobbyMate!', 'success')
-        navigate('/dashboard')
+        if (location.pathname !== '/login') {
+          navigate(location.pathname)
+        }
+        else {
+          navigate('/dashboard')
+        }
       }
     })
     .catch((error) => {
