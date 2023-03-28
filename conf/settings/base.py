@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'apps.users.apps.UserConfig',
     'apps.hobbies',
     'apps.links',
+    'apps.schedule',
 ]
 
 MIDDLEWARE = [
