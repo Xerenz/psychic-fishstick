@@ -14,13 +14,17 @@ import { authAxios, hobbyUrl } from '../api';
 export default function Hobbies() {
     const [myHobbies, setMyHobbies] = useState([])
     const [noHobbies, setNoHobbies] = useState(false)
-    const {hideLoader} = useLoaderStore((state) => state)
+    const {hideLoader, showLoader} = useLoaderStore((state) => state)
 
     let navigate = useNavigate()
 
     const handleCreateNewClick = () => {
         navigate('create-event')
     }
+
+    useEffect(() => {
+        showLoader()
+    }, [])
    
     useEffect(() => {
         authAxios.get(hobbyUrl)
@@ -47,7 +51,7 @@ export default function Hobbies() {
         <>
             <Grid sx={{ my: 2 }}>
                 <Typography component='h1' 
-                variant='h3' color='primary'>
+                variant='h4' color='primary'>
                     My Activities
                 </Typography>
             </Grid>
@@ -77,8 +81,8 @@ export default function Hobbies() {
                     </IconButton>Add new event
                 </Grid>
             </Grid>
-            <Grid container 
-            sx={{ mt: 1 }} 
+            <Grid container
+            sx={{ mt: 1 }}
             spacing={6}>
                 {myHobbies.map((hobby) => 
                 <HobbyCard hobby={hobby} 
