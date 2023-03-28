@@ -22,8 +22,8 @@ export default function GroupSchedule() {
         </Typography>
         <br />
         <ScheduleSelector 
-        minTime={8}
-        maxTime={18}
+        minTime={6}
+        maxTime={24}
         unselectedColor='#EDEBDC'
         selectedColor='#FFC670'
         hoveredColor='#A9A3A3' />

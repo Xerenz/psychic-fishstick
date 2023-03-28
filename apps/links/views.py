@@ -39,7 +39,7 @@ def verify_link(request):
     total_participants = link.hobby.participants.all().count()
     max_participants = link.hobby.max_number_of_participants
     
-    if total_participants == max_number_of_participants:
+    if total_participants == max_participants:
         return Response({
             'detail': 'Seems like there is no space left for you, sorry.'
         }, status.HTTP_400_BAD_REQUEST)

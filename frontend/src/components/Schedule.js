@@ -4,17 +4,17 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Loader from './Loader'
+import LinkDialog from './LinkDialog'
 import useSnackStore from '../store/SnackStore'
 import useLoaderStore from '../store/LoaderStore'
 import Scheduler from '../features/Scheduler'
 import {ReactComponent as Person} from '../assets/Person.svg'
 import {ReactComponent as LocationIcon} from '../assets/Location.svg'
 import { authAxios, hobbyUrl } from '../api'
-import LinkDialog from './LinkDialog'
 
 export default function Schedule() {
     const {id} = useParams()
-    const {hideLoader} = useLoaderStore((state) => state)
+    const {hideLoader, showLoader} = useLoaderStore((state) => state)
     const {showSnackbar} = useSnackStore((state) => state)
 
     const [hobby, setHobby] = useState({})
@@ -36,6 +36,10 @@ export default function Schedule() {
     const closeModal = () => {
         setModalOpen(false)
     }
+
+    useEffect(() => {
+        showLoader()
+    }, [])
 
     useEffect(() => {
         authAxios.get(`${hobbyUrl}${id}/`)

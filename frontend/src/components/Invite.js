@@ -9,24 +9,44 @@ import useLoaderStore from '../store/LoaderStore'
 import Scheduler from '../features/Scheduler'
 import {ReactComponent as Person} from '../assets/Person.svg'
 import {ReactComponent as LocationIcon} from '../assets/Location.svg'
-import { authAxios, hobbyUrl } from '../api'
+import { authAxios, verifyLinkUrl, hobbyUrl } from '../api'
 import LinkDialog from './LinkDialog'
 
 export default function Schedule() {
     const {id} = useParams()
-    const {hideLoader} = useLoaderStore((state) => state)
+    const {hideLoader, showLoader} = useLoaderStore((state) => state)
     const {showSnackbar} = useSnackStore((state) => state)
 
+    const [hobbyId, setHobbyId] = useState('')
     const [hobby, setHobby] = useState({})
-
-    const [modalOpen, setModalOpen] = useState(false)
 
     const handleSubmit = () => {
         
     }
 
     useEffect(() => {
-        authAxios.get(`${hobbyUrl}${id}/`)
+        showLoader()
+    }, [])
+
+    useEffect(() => {
+        authAxios.post(verifyLinkUrl, { link_id: id })
+        .then((response) => {
+            const {data} = response
+            setHobbyId(data.hobby)
+        })
+        .catch((error) => {
+            const message = error.response?.data?.detail
+            showSnackbar(message | 'Something went wrong',
+            'error')
+        })
+    }, [id, ])
+
+    useEffect(() => {
+        if (!hobbyId) {
+            return -1
+        }
+
+        authAxios.get(`${hobbyUrl}${hobbyId}/`)
         .then((response) => {
             const {data} = response
             console.log(data)
@@ -38,7 +58,7 @@ export default function Schedule() {
             'error')
         })
         .finally(() => hideLoader())
-    }, [id, ])
+    }, [hobbyId, ])
 
     return (
         <Loader>

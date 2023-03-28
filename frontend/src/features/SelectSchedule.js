@@ -20,8 +20,8 @@ export default function SelectSchedule() {
             <ScheduleSelector
             selection={selection}
             onChange={handleChange}
-            minTime={8}
-            maxTime={18}
+            minTime={6}
+            maxTime={24}
             unselectedColor='#BCB1FF'
             selectedColor='#6253FA' />
         </>
