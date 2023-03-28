@@ -1,8 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 from .models import Schedule
-from .serializers import ScheduleSerializer
+from .serializers import ScheduleSerializer, CreateScheduleSerializer
 
 
 @api_view(['GET', ])
@@ -11,7 +12,7 @@ def fetch_my_schedule(request, *args, **kwargs):
     hobby_id = kwargs.get('hobby_id')
     queryset = Schedule.objects.filter(
         user=user_id, hobby=hobby_id 
-        )
+    )
     serializer = ScheduleSerializer(queryset, many=True)
 
     return Response(serializer.data)
@@ -26,3 +27,26 @@ def fetch_group_schedule(request, *args, **kwargs):
     serializer = ScheduleSerializer(queryset, many=True)
 
     return Response(serializer.data)
+
+
+@api_view(['POST', ])
+def create_schedule(request, *args, **kwargs):
+    # First drop all objects 
+    Schedule.objects.filter(
+        user=request.user.id
+    ).delete()
+
+    # Then recreate objects
+    for obj in request.data:
+        obj.update({
+            'user': request.user.id
+        })
+
+    serializer = CreateScheduleSerializer(
+        data=request.data, many=True
+    )
+
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(status=status.HTTP_201_CREATED)
+
