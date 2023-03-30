@@ -45,7 +45,7 @@ export default function Schedule() {
 
     useEffect(() => {
         if (!hobbyId) {
-            return -1
+            return () => {}
         }
 
         authAxios.get(`${hobbyUrl}${hobbyId}/`)
