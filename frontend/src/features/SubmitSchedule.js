@@ -9,14 +9,13 @@ export default function SubmitSchedule(props) {
     const formatData = (data) => {
         return data.map((item) => ({
             time_block: item,
-            hobby: props.hobbyId
         }))
     }
 
     const handleClick = () => {
         const data = formatData(props.schedule)
         
-        authAxios.post(scheduleUrl, data)
+        authAxios.post(`${scheduleUrl}${props.hobbyId}/create`, data)
         .then((response) => {
             showSnackbar('Thanks for updating your schedule!',
             'success')

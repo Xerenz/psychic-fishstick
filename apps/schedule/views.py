@@ -31,15 +31,18 @@ def fetch_group_schedule(request, *args, **kwargs):
 
 @api_view(['POST', ])
 def create_schedule(request, *args, **kwargs):
-    # First drop all objects 
+    # First drop all objects for user and hobby
+    hobby_id = kwargs.get('hobby_id')
     Schedule.objects.filter(
-        user=request.user.id
+        user=request.user.id,
+        hobby=hobby_id
     ).delete()
 
     # Then recreate objects
     for obj in request.data:
         obj.update({
-            'user': request.user.id
+            'user': request.user.id,
+            'hobby': hobby_id
         })
 
     serializer = CreateScheduleSerializer(
