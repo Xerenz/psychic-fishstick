@@ -11,6 +11,7 @@ import {ReactComponent as Person} from '../assets/Person.svg'
 import {ReactComponent as LocationIcon} from '../assets/Location.svg'
 import { authAxios, verifyLinkUrl, hobbyUrl } from '../api'
 import LinkDialog from './LinkDialog'
+import SubmitSchedule from '../features/SubmitSchedule'
 
 export default function Schedule() {
     const {id} = useParams()
@@ -19,6 +20,7 @@ export default function Schedule() {
 
     const [hobbyId, setHobbyId] = useState('')
     const [hobby, setHobby] = useState({})
+    const [schedule, setSchedule] = useState([])
 
     const handleSubmit = () => {
         
@@ -82,7 +84,10 @@ export default function Schedule() {
                     </Grid>
                 </Typography>
             </Grid>
-            <Scheduler />
+            <Scheduler
+            schedule={schedule}
+            setSchedule={setSchedule}
+            hobbyId={hobbyId} />
             <Grid container
             sx={{ 
                 my: 2,
@@ -90,10 +95,9 @@ export default function Schedule() {
             }}
             spacing={3}>
                 <Grid item>
-                    <Button variant='contained'
-                    color='secondary'>
-                        Submit
-                    </Button>
+                    <SubmitSchedule 
+                    schedule={schedule}
+                    hobbyId={hobbyId} />
                 </Grid>
             </Grid>
         </Loader>

@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from 'react'
 import { Typography } from '@mui/material'
-import React from 'react'
 import ScheduleSelector from 'react-schedule-selector'
+import { authAxios, scheduleUrl } from '../api'
 
 // palette: {
 //     primary: {
@@ -14,7 +15,28 @@ import ScheduleSelector from 'react-schedule-selector'
 //     }
 //   }
 
-export default function GroupSchedule() {
+export default function GroupSchedule(props) {
+  const [groupSchedule, setGroupSchedule] = useState([])
+  
+  const extractTimeData = (data) => {
+    return data.map(item => item.time_block)
+  }
+
+  useEffect(() => {
+    authAxios.get(`${scheduleUrl}${props.hobbyId}/group`)
+    .then((response) => {
+      const { data } = response
+      const timeData = extractTimeData(data)
+      setGroupSchedule(timeData)
+    })
+    .catch((error) => {
+      console.log('Error', error)
+    })
+    .finally(() => {
+
+    })
+  }, [])
+
   return (
     <>
         <Typography align='center' variant='h5'>
@@ -22,6 +44,7 @@ export default function GroupSchedule() {
         </Typography>
         <br />
         <ScheduleSelector 
+        selection={groupSchedule}
         minTime={6}
         maxTime={24}
         unselectedColor='#EDEBDC'

@@ -1,14 +1,31 @@
-import React, {useState} from 'react'
+import React, { useEffect } from 'react'
 import ScheduleSelector from 'react-schedule-selector'
 import { Button, Grid, Typography } from '@mui/material'
+import { authAxios, scheduleUrl } from '../api'
 
-export default function SelectSchedule() {
-    const [selection, setSelection] = useState([])
+export default function SelectSchedule(props) {
+    const extractTimeData = (data) => {
+        return data.map(item => item.time_block)
+    }
+
+    useEffect(() => {
+        authAxios.get(`${scheduleUrl}${props.hobbyId}/my`)
+        .then((response) => {
+            const { data } = response
+            const timeData = extractTimeData(data)
+            console.log(timeData)
+            props.setSchedule(timeData)
+        })
+        .catch((error) => {
+            console.log('Error', error)
+        })
+        .finally(() => {
+
+        })
+    }, [])
 
     const handleChange = (newSelection) => {
-        console.log(newSelection)
-        setSelection(() => newSelection)
-        console.log(selection)
+        props.setSchedule(() => newSelection)
     }
 
     return (
@@ -18,7 +35,7 @@ export default function SelectSchedule() {
             </Typography>
             <br />
             <ScheduleSelector
-            selection={selection}
+            selection={props.schedule}
             onChange={handleChange}
             minTime={6}
             maxTime={24}

@@ -4,15 +4,19 @@ import SelectSchedule from './SelectSchedule'
 import GroupSchedule from './GroupSchedule'
 import Loader from '../components/Loader'
 
-export default function Scheduler() {
+export default function Scheduler(props) {
   return (
     <Loader>
         <Grid container spacing={5}>
             <Grid item md={6}>
-                <SelectSchedule />
+                <SelectSchedule
+                hobbyId={props.hobbyId}
+                schedule={props.schedule}
+                setSchedule={props.setSchedule} />
             </Grid>
             <Grid item md={6}>
-                <GroupSchedule />
+                <GroupSchedule
+                hobbyId={props.hobbyId} />
             </Grid>
         </Grid>
     </Loader>

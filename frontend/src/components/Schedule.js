@@ -11,6 +11,7 @@ import Scheduler from '../features/Scheduler'
 import {ReactComponent as Person} from '../assets/Person.svg'
 import {ReactComponent as LocationIcon} from '../assets/Location.svg'
 import { authAxios, hobbyUrl } from '../api'
+import SubmitSchedule from '../features/SubmitSchedule'
 
 export default function Schedule() {
     const {id} = useParams()
@@ -18,6 +19,7 @@ export default function Schedule() {
     const {showSnackbar} = useSnackStore((state) => state)
 
     const [hobby, setHobby] = useState({})
+    const [schedule, setSchedule] = useState([])
 
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -78,7 +80,10 @@ export default function Schedule() {
                     </Grid>
                 </Typography>
             </Grid>
-            <Scheduler />
+            <Scheduler 
+            schedule={schedule}
+            setSchedule={setSchedule}
+            hobbyId={id} />
             <Grid container
             sx={{ 
                 my: 2,
@@ -86,22 +91,21 @@ export default function Schedule() {
             }}
             spacing={3}>
                 <Grid item>
-                    <Button variant='contained'
-                    color='secondary'>
-                        Submit
-                    </Button>
-                </Grid>
-                <Grid item>
-                    <Button variant='contained'
-                    color='secondary'>
-                        Skip
-                    </Button>
+                    <SubmitSchedule 
+                    schedule={schedule}
+                    hobbyId={id}/>
                 </Grid>
                 <Grid item>
                     <Button variant='contained'
                     color='secondary'
                     onClick={createShareableLink}>
                         Share
+                    </Button>
+                </Grid>
+                <Grid item>
+                    <Button variant='contained'
+                    color='secondary'>
+                        Done
                     </Button>
                 </Grid>
             </Grid>
