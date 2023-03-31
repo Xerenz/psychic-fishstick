@@ -15,10 +15,16 @@ class HobbyCreateSerializer(serializers.ModelSerializer):
 
 
 class HobbyListSerializer(serializers.ModelSerializer):
+    created_by_me = serializers.SerializerMethodField('_created_by_me')
+
+    def _created_by_me(self, obj):
+        return obj.creator == self.context['user']
+
     class Meta:
         model = Hobby
         fields = ['id', 'name', 'duration', 'location',
-        'max_number_of_participants', 'number_of_participants', ]
+        'max_number_of_participants', 'number_of_participants', 
+        'created_by_me', ]
 
 
 class HobbyRetrieveSerializer(serializers.ModelSerializer):

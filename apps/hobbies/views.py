@@ -25,3 +25,14 @@ class HobbyViewSet(viewsets.ModelViewSet):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
+
+    def list(self, request, *args, **kwargs):
+        creator_queryset = self.queryset.filter(creator=request.user.id)
+        part_queryset = self.queryset.filter(participants=request.user.id)
+        
+        queryset = (creator_queryset | part_queryset).distinct()
+        serializer = self.get_serializer(queryset, many=True, context={
+                                            'user': request.user
+                                        })
+        
+        return Response(serializer.data)

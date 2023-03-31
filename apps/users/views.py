@@ -57,5 +57,5 @@ def logout(request):
     token = request.user.auth_token
     token.delete()
     return Response({
-        'detail': 'See ya later!'
+        'detail': 'See ya later'
     }, status=status.HTTP_200_OK)

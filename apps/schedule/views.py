@@ -5,6 +5,8 @@ from rest_framework import status
 from .models import Schedule
 from .serializers import ScheduleSerializer, CreateScheduleSerializer
 
+from apps.hobbies.models import Hobby
+
 
 @api_view(['GET', ])
 def fetch_my_schedule(request, *args, **kwargs):
@@ -51,5 +53,10 @@ def create_schedule(request, *args, **kwargs):
 
     if serializer.is_valid(raise_exception=True):
         serializer.save()
+        
+        # Add this user as participant
+        hobby = Hobby.objects.get(pk=hobby_id)
+        hobby.participants.add(request.user)
+        
         return Response(status=status.HTTP_201_CREATED)
 
