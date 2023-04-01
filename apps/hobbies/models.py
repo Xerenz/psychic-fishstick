@@ -23,6 +23,17 @@ class Hobby(models.Model):
     )
     participants = models.ManyToManyField(User, 
                     related_name='my_hobbies')
+    
+    RECURRENCE_CHOICES = [
+        (0, 'one time'),
+        (1, 'daily'),
+        (2, 'weekly'),
+        (3, 'monthly'),
+    ]
+    recurrence = models.IntegerField(default=0, 
+                    choices=RECURRENCE_CHOICES)
+
+    final_date_time = models.DateTimeField(null=True)
 
     @property
     def number_of_participants(self):

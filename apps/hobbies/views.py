@@ -1,3 +1,6 @@
+from django.core.files.temp import NamedTemporaryFile
+from django.http import FileResponse
+
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -5,6 +8,8 @@ from rest_framework.decorators import action
 from .models import Hobby
 from .serializers import HobbyCreateSerializer, HobbyListSerializer, \
     HobbyRetrieveSerializer
+from .renderers import PassthroughRenderer
+from .ics import ICS
 
 from apps.schedule.models import Schedule
 
@@ -51,3 +56,30 @@ class HobbyViewSet(viewsets.ModelViewSet):
         ).delete()
 
         return Response(status=status.HTTP_202_ACCEPTED)
+
+    @action(methods=['GET', ], detail=True, 
+    renderer_classes=[PassthroughRenderer, ])
+    def ics(self, request, *args, **kwargs):
+        hobby = self.get_object()
+        
+        if not hobby.final_date_time:
+            return Response({
+                'detail': 'First finalize the event date'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        ics = ICS(hobby)
+        cal = ics.create_ics_cal()
+
+        print(cal)
+
+        f = open('cal.ics', 'wb')
+        f.write(cal.to_ical())
+        f.close()
+
+        f = open('cal.ics', 'rb')
+        response = FileResponse(f)
+        response['Content-Length'] = f.tell()
+        response['Content-Disposition'] = 'attachment; filename="%s"' % f.name
+            
+        return response
+
