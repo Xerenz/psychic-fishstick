@@ -22,6 +22,10 @@ export default function Hobbies() {
         navigate('create-event')
     }
 
+    const handleHobbiesUpdate = (updateFunc) => {
+       updateFunc(myHobbies, setMyHobbies)
+    }
+
     useEffect(() => {
         showLoader()
     }, [])
@@ -84,9 +88,10 @@ export default function Hobbies() {
             <Grid container
             sx={{ mt: 1 }}
             spacing={6}>
-                {myHobbies.map((hobby) => 
+                { myHobbies.map((hobby) => 
                 <HobbyCard hobby={hobby} 
-                key={hobby.id} />)}
+                key={hobby.id} 
+                handleHobbiesUpdate={handleHobbiesUpdate} />) }
             </Grid>
         </>
         }

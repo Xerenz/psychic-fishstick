@@ -12,16 +12,37 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import {ReactComponent as LocationIcon} from '../assets/Location.svg'
 import {ReactComponent as Person} from '../assets/Person.svg'
 import {ReactComponent as Calendar} from '../assets/Calendar.svg'
+import { authAxios, hobbyUrl } from '../api';
+import useSnackStore from '../store/SnackStore';
 
-export const HobbyCard = ({ hobby }) => {
+export const HobbyCard = ({ hobby, handleHobbiesUpdate }) => {
     let navigate = useNavigate()
+    const { showSnackbar } = useSnackStore((state) => state)
 
     const handleClick = () => {
         navigate(`schedule/${hobby.id}`)
     }
 
     const handleQuit = () => {
-        console.log('Quit', hobby.id)
+        authAxios.get(`${hobbyUrl}${hobby.id}/quit/`)
+        .then((response) => {
+            if (!hobby.created_by_me) {
+                handleHobbiesUpdate(
+                    (data, setData) => {
+                        setData(data.filter((item) => item.id !== hobby.id))
+                    }
+                )
+            }
+            showSnackbar(`You have exited out of ${hobby.name}`, 'warning')
+        })
+        .catch((error) => {
+            const message = error.response?.data?.detail
+            showSnackbar(message | 'Something went wrong',
+            'error')
+        })
+        .finally(() => {
+
+        })
     }
 
     const handleDownloadIcs = () => {
