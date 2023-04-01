@@ -33,7 +33,7 @@ export const HobbyCard = ({ hobby, handleHobbiesUpdate }) => {
                     }
                 )
             }
-            showSnackbar(`You have exited out of ${hobby.name}`, 'warning')
+            showSnackbar(`You have exited out of ${hobby.name}`, 'success')
         })
         .catch((error) => {
             const message = error.response?.data?.detail

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
@@ -15,6 +15,7 @@ import SubmitSchedule from '../features/SubmitSchedule'
 
 export default function Schedule() {
     const {id} = useParams()
+    const navigate = useNavigate()
     const {hideLoader, showLoader} = useLoaderStore((state) => state)
     const {showSnackbar} = useSnackStore((state) => state)
 
@@ -23,8 +24,8 @@ export default function Schedule() {
 
     const [modalOpen, setModalOpen] = useState(false)
 
-    const handleSubmit = () => {
-        
+    const handleDone = () => {
+        navigate('/dashboard')
     }
 
     const handleSkip = () => {
@@ -104,7 +105,8 @@ export default function Schedule() {
                 </Grid>
                 <Grid item>
                     <Button variant='contained'
-                    color='secondary'>
+                    color='secondary'
+                    onClick={handleDone}>
                         Done
                     </Button>
                 </Grid>
