@@ -1,5 +1,6 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from .models import Hobby
 from .serializers import HobbyCreateSerializer, HobbyListSerializer, \
@@ -36,3 +37,10 @@ class HobbyViewSet(viewsets.ModelViewSet):
                                         })
         
         return Response(serializer.data)
+
+    @action(methods=['GET', ], detail=True)
+    def quit(self, request, *args, **kwargs):
+        hobby = self.get_object()
+        hobby.participants.remove(request.user)
+
+        return Response(status=status.HTTP_202_ACCEPTED)
