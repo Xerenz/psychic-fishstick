@@ -77,6 +77,7 @@ class HobbyViewSet(viewsets.ModelViewSet):
         f.close()
 
         f = open('cal.ics', 'rb')
+        f.seek(0)
         response = FileResponse(f)
         response['Content-Length'] = f.tell()
         response['Content-Disposition'] = 'attachment; filename="%s"' % f.name

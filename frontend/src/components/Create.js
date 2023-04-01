@@ -12,11 +12,14 @@ import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button'
 import useSnackStore from '../store/SnackStore'
 import { authAxios, hobbyUrl } from '../api';
+import SelectHobby from './SelectHobby'
 
 export default function Create() {
     let navigate = useNavigate()
     const {showSnackbar} = useSnackStore((state) => state)
 
+    const [page, setPage] = useState(0)
+    const [hobby, setHobby] = useState('')
     const [errorText, setErrorText] = useState('')
     const [error, setError] = useState(false)
     const [durationErrorText, setDurationErrorText] = useState('')
@@ -56,7 +59,7 @@ export default function Create() {
         }
 
         let data = Object.fromEntries(formData)
-
+        data = {...data, activity: hobby}
         data['duration'] = formatDuration(data['duration'])
 
         console.log(data)
@@ -77,6 +80,9 @@ export default function Create() {
     }
 
   return (
+    <>
+    { page === 0 && <SelectHobby setHobby={setHobby} setPage={setPage} /> }
+    { page === 1 && 
     <Grid container 
     sx={{
         marginTop: '2%'
@@ -109,7 +115,7 @@ export default function Create() {
                         <TextField variant='standard' name='name' />
                     </FormControl>
                 </Grid>
-                <Grid item>
+                {/* <Grid item>
                     <FormControl required>
                         <FormLabel>
                             What kind of event is it?
@@ -134,7 +140,7 @@ export default function Create() {
                             label="Other" />
                         </RadioGroup>
                     </FormControl>
-                </Grid>
+                </Grid> */}
                 <Grid item>
                     <FormControl required>
                         <FormLabel>
@@ -187,18 +193,26 @@ export default function Create() {
                         <TextField variant='standard' name='location' />
                     </FormControl>
                 </Grid>
-                <Grid item>
-                    <FormControl>
-                        <Button variant='contained' color='secondary'
-                        type='submit'>
-                            Next
-                        </Button>
-                    </FormControl>
-                </Grid>
+                    <Grid item>
+                        <FormControl>
+                            <Button variant='contained' color='secondary'
+                            onClick={() => setPage(0)}>
+                                Back
+                            </Button>
+                        </FormControl>
+                        <FormControl sx={{ mx: 2 }}>
+                            <Button variant='contained' color='secondary'
+                            type='submit'>
+                                Next
+                            </Button>
+                        </FormControl>
+                    </Grid>
             </Grid>
             <br />
         </Box>
     </Grid>
+    }
+    </>
   )
 }
 
