@@ -6,6 +6,8 @@ from .models import Hobby
 from .serializers import HobbyCreateSerializer, HobbyListSerializer, \
     HobbyRetrieveSerializer
 
+from apps.schedule.models import Schedule
+
 
 class HobbyViewSet(viewsets.ModelViewSet):
     queryset = Hobby.objects.all()
@@ -42,5 +44,10 @@ class HobbyViewSet(viewsets.ModelViewSet):
     def quit(self, request, *args, **kwargs):
         hobby = self.get_object()
         hobby.participants.remove(request.user)
+
+        # Remove the user's schedule
+        Schedule.objects.filter(
+            user=request.user.id, hobby=hobby.id
+        ).delete()
 
         return Response(status=status.HTTP_202_ACCEPTED)
