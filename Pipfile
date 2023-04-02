@@ -7,6 +7,9 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 python-social-auth = "*"
+django-cors-headers = "*"
+icalendar = "*"
+recurring-ical-events = "*"
 
 [dev-packages]
 
