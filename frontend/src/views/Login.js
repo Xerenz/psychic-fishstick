@@ -59,7 +59,7 @@ export default function Login() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 3,
+            marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -109,16 +109,6 @@ export default function Login() {
                 <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
-              </Grid>
-            </Grid>
-            <Divider variant='middle' sx={{ my: 2 }}>
-              OR
-            </Divider>
-            <Grid container
-            alignItems='center'
-            justifyContent='center'>
-              <Grid item>
-                <GoogleButton />
               </Grid>
             </Grid>
           </Box>

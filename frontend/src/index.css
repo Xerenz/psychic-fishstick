@@ -12,7 +12,38 @@ code {
     monospace;
 }
 
-.landing-img {
-  width: 35%;
+@media only screen and (max-width: 700px) {
+  /* For mobile phones: */
+  .my-column-1 {
+    width: 100%;
+  }
+
+  .my-column-2 {
+    width: 100%;
+  }
+}
+
+.parent {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   height: 100vh;
+}
+
+.my-column-1 {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('./assets/landing.png');
+  background-size: cover;
+}
+
+.my-column-2 {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
