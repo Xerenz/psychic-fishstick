@@ -16,5 +16,6 @@ class Schedule(models.Model):
 class Poll(models.Model):
     time_block = models.DateTimeField()
     votes = models.IntegerField(default=0)
+    users = models.ManyToManyField(User, blank=True)
     hobby = models.ForeignKey(Hobby, on_delete=models.CASCADE)
     prev_votes_ratio = models.FloatField(default=0.0)

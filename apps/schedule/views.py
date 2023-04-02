@@ -75,10 +75,9 @@ def get_or_create_poll(request, *args, **kwargs):
             'detail': 'Oops... Seems like no one joined this event'
         }, status=status.HTTP_400_BAD_REQUEST)
     
-    polls = Poll.objects.filter(hobby=hobby_id)
-
     
     # Since polls for the hobby exists we are going to fetch that
+    polls = Poll.objects.filter(hobby=hobby_id)
     if polls:
         poll_serializer = PollSerializer(polls, many=True)
         return Response(poll_serializer.data)
@@ -110,8 +109,14 @@ def vote(request, *args, **kwargs):
     poll_id = kwargs.get('poll_id')
     poll = Poll.objects.get(pk=poll_id)
 
+    if poll.users.filter(id=request.user.id).exists():
+        return Response({
+            'detail': 'Your vote has already been submitted'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
     # Increment vote
     poll.votes = poll.votes + 1
+    poll.users.add(request.user)
     poll.save()
 
     return Response(status=status.HTTP_202_ACCEPTED)
