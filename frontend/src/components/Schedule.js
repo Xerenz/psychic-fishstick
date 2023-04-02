@@ -12,6 +12,7 @@ import {ReactComponent as Person} from '../assets/Person.svg'
 import {ReactComponent as LocationIcon} from '../assets/Location.svg'
 import { authAxios, hobbyUrl } from '../api'
 import SubmitSchedule from '../features/SubmitSchedule'
+import TimeUp from './TimeUp'
 
 export default function Schedule() {
     const {id} = useParams()
@@ -81,38 +82,46 @@ export default function Schedule() {
                     </Grid>
                 </Typography>
             </Grid>
-            <Scheduler 
-            schedule={schedule}
-            setSchedule={setSchedule}
-            hobbyId={id} />
-            <Grid container
-            sx={{ 
-                my: 2,
-                justifyContent: 'center' 
-            }}
-            spacing={3}>
-                <Grid item>
-                    <SubmitSchedule 
-                    schedule={schedule}
-                    hobbyId={id}/>
+            { hobby.timeup ? 
+            <TimeUp 
+            numParticipants={hobby.number_of_participants}
+            validMeeting={hobby.valid_meeting}
+            finalDateTime={hobby.final_date_time}
+            hobbyId={id} /> : 
+            <>
+                <Scheduler 
+                schedule={schedule}
+                setSchedule={setSchedule}
+                hobbyId={id} />
+                <Grid container
+                sx={{ 
+                    my: 2,
+                    justifyContent: 'center' 
+                }}
+                spacing={3}>
+                    <Grid item>
+                        <SubmitSchedule 
+                        schedule={schedule}
+                        hobbyId={id}/>
+                    </Grid>
+                    <Grid item>
+                        <Button variant='contained'
+                        color='secondary'
+                        onClick={createShareableLink}>
+                            Share
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Button variant='contained'
+                        color='secondary'
+                        onClick={handleDone}>
+                            Done
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <Button variant='contained'
-                    color='secondary'
-                    onClick={createShareableLink}>
-                        Share
-                    </Button>
-                </Grid>
-                <Grid item>
-                    <Button variant='contained'
-                    color='secondary'
-                    onClick={handleDone}>
-                        Done
-                    </Button>
-                </Grid>
-            </Grid>
-            <LinkDialog open={modalOpen}
-            handleClose={closeModal} />
+                <LinkDialog open={modalOpen}
+                handleClose={closeModal} />
+            </> }
         </Loader>
     )
 }
