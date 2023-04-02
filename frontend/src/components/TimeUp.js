@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { Button, Checkbox, Chip, FormControlLabel, FormGroup, Grid, Radio, Tooltip, Typography } from '@mui/material'
+import { Button, Checkbox, Chip, FormControlLabel, 
+    FormGroup, Grid, Radio, RadioGroup, Tooltip, Typography } from '@mui/material'
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import useSnackStore from '../store/SnackStore';
@@ -103,13 +104,15 @@ const Poll = (props) => {
                 Please vote and finalize meeting
             </Typography>
             <FormGroup>
+                <RadioGroup>
+
                 { checkboxes.map((cb) => {
                         const label = formatDateTimeString(cb.time_block)
                         return (
                             <Grid>
                                 <FormControlLabel 
                                 key={cb.id} 
-                                control={<Radio />}
+                                control={<Radio onChange={() => handleCheck(cb.id)} />}
                                 value={cb.id} 
                                 label={label} />
                                 <Tooltip title='Current votes'>
@@ -129,6 +132,7 @@ const Poll = (props) => {
                         )
                     }
                 ) }
+                </RadioGroup>
             </FormGroup>
             <br />
             <Button variant='contained' 
