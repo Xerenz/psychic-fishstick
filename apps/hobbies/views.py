@@ -1,5 +1,8 @@
 from django.core.files.temp import NamedTemporaryFile
 from django.http import FileResponse
+from django.utils import timezone
+
+from datetime import timedelta
 
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -44,6 +47,26 @@ class HobbyViewSet(viewsets.ModelViewSet):
                                         })
         
         return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        hobby = self.get_object()
+        serializer = self.get_serializer(hobby)
+
+        if (timezone.now() - hobby.created_on) < timedelta(hours=48):
+            return Response(serializer.data)
+
+        data = {
+            'timeup': True
+        }
+
+        if hobby.final_date_time:
+            data['valid_meeting'] = True
+            data.update(serializer.data)
+            return Response(data)
+        
+        data['valid_meeting'] = False
+        data.update(serializer.data)
+        return Response(data)
 
     @action(methods=['GET', ], detail=True)
     def quit(self, request, *args, **kwargs):

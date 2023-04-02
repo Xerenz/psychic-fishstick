@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -34,6 +35,8 @@ class Hobby(models.Model):
                     choices=RECURRENCE_CHOICES)
 
     final_date_time = models.DateTimeField(null=True)
+    
+    created_on = models.DateTimeField(default=timezone.now)
 
     @property
     def number_of_participants(self):
