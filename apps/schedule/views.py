@@ -107,9 +107,13 @@ def get_or_create_poll(request, *args, **kwargs):
 @api_view(['GET', ])
 def vote(request, *args, **kwargs):
     poll_id = kwargs.get('poll_id')
+    hobby_id = kwargs.get('hobby_id')
     poll = Poll.objects.get(pk=poll_id)
 
-    if poll.users.filter(id=request.user.id).exists():
+    check_queryset = Poll.objects.filter(users__id=request.user.id, 
+                                hobby=hobby_id)
+
+    if check_queryset:
         return Response({
             'detail': 'Your vote has already been submitted'
         }, status=status.HTTP_400_BAD_REQUEST)

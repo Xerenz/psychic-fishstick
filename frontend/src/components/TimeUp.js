@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { Button, Checkbox, Chip, FormControlLabel, FormGroup, Grid, Tooltip, Typography } from '@mui/material'
+import { Button, Checkbox, Chip, FormControlLabel, FormGroup, Grid, Radio, Tooltip, Typography } from '@mui/material'
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import useSnackStore from '../store/SnackStore';
@@ -62,15 +62,15 @@ const Poll = (props) => {
     }
 
     const handleSubmit = () => {
-        authAxios.get(`${pollUrl}${selected}/vote`)
+        authAxios.get(`${pollUrl}${props.hobbyId}/poll/${selected}/vote`)
         .then((response) => {
             showSnackbar('Your vote has been submitted', 'success')
             navigate('/dashboard')
         })
         .catch((error) => {
             const message = error?.response?.data?.detail
-            showSnackbar(message | 'Something went wrong',
-            'error')
+            console.log(message)
+            showSnackbar(message, 'warning')
         })
         .finally(() => {
 
@@ -109,8 +109,8 @@ const Poll = (props) => {
                             <Grid>
                                 <FormControlLabel 
                                 key={cb.id} 
-                                control={<Checkbox 
-                                    onChange={() => handleCheck(cb.id)} />} 
+                                control={<Radio />}
+                                value={cb.id} 
                                 label={label} />
                                 <Tooltip title='Current votes'>
                                     <Chip label={`${cb.votes}/${props.numParticipants}`}
