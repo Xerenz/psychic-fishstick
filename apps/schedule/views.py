@@ -123,6 +123,23 @@ def vote(request, *args, **kwargs):
     poll.users.add(request.user)
     poll.save()
 
+    max_vote_polls = Poll.objects.filter(hobby=hobby_id) \
+                    .order_by('-votes')
+
+    # Check for top
+    max_vote_poll = max_vote_polls[:1].get()
+    hobby = Hobby.objects.get(pk=hobby_id)
+    if (max_vote_poll.votes / hobby.number_of_participants) >= 0.5:
+        hobby.final_date_time = max_vote_poll.time_block
+        hobby.save()
+
+    # Check for top 2
+    max_vote_polls_2 = max_vote_polls[:2]
+    if (max_vote_polls_2[0].votes / hobby.number_of_participants) == \
+     (max_vote_polls_2[1].votes / hobby.number_of_participants):
+        hobby.final_date_time = max_vote_poll_2[0].time_block
+        hobby.save()
+
     return Response(status=status.HTTP_202_ACCEPTED)
 
 
