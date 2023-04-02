@@ -32,6 +32,8 @@ class SchedulePercentageSerializer(serializers.Serializer):
 
 
 class PollSerializer(serializers.ModelSerializer):
+    users = ScheduleUserSerializer(read_only=True, many=True)
+    
     class Meta:
         model = Poll
         fields = '__all__'
