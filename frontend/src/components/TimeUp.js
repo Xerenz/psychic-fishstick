@@ -115,11 +115,11 @@ const Poll = (props) => {
                                 control={<Radio onChange={() => handleCheck(cb.id)} />}
                                 value={cb.id} 
                                 label={label} />
-                                <Tooltip title='Current votes'>
+                                <CustomTooltip users={cb.users}>
                                     <Chip label={`${cb.votes}/${props.numParticipants}`}
                                     color='secondary'
                                     variant='contained' />
-                                </Tooltip>
+                                </CustomTooltip>
                                 {/* <Tooltip title='Previous votes ratio'>
                                     <Chip sx={{
                                         mx: 1
@@ -141,5 +141,26 @@ const Poll = (props) => {
                 Submit
             </Button>
         </Grid>
+    )
+}
+
+const CustomTooltip = (props) => {
+    const formatNames = (data) => {
+        let names = data.map((item) => 
+        `${item.first_name} ${item.last_name}`)
+        
+        return names.join('\n')
+    }
+
+    return (
+        <Tooltip title={
+            <div style={{
+                whiteSpace: 'pre-line'
+            }}>
+                { formatNames(props.users) }
+            </div>
+        }>
+            { props.children }
+        </Tooltip>
     )
 }
