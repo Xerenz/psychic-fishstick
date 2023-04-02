@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Sum
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -125,20 +125,28 @@ def vote(request, *args, **kwargs):
 
     max_vote_polls = Poll.objects.filter(hobby=hobby_id) \
                     .order_by('-votes')
+    total_votes = max_vote_polls.aggregate(total_votes=Sum('votes'))
+    print(total_votes)
 
     # Check for top
     max_vote_poll = max_vote_polls[:1].get()
     hobby = Hobby.objects.get(pk=hobby_id)
-    if (max_vote_poll.votes / hobby.number_of_participants) >= 0.5:
+    if (max_vote_poll.votes / hobby.number_of_participants) > 0.5:
         hobby.final_date_time = max_vote_poll.time_block
         hobby.save()
 
-    # Check for top 2
-    max_vote_polls_2 = max_vote_polls[:2]
-    if (max_vote_polls_2[0].votes / hobby.number_of_participants) == \
-     (max_vote_polls_2[1].votes / hobby.number_of_participants):
-        hobby.final_date_time = max_vote_poll_2[0].time_block
-        hobby.save()
+    # Check if all users have casted their vote
+    if total_votes['total_votes'] == hobby.num_participants:
+        # Check for top 2
+        max_vote_polls_2 = max_vote_polls[:2]
+        if (max_vote_polls_2[0].votes / hobby.number_of_participants) == \
+        (max_vote_polls_2[1].votes / hobby.number_of_participants):
+            hobby.final_date_time = max_vote_poll_2[0].time_block
+            hobby.save()
+        else:
+            # Select the max voted time
+            hobby.final_date_time = max_vote_poll.time_block
+            hobby.save()
 
     return Response(status=status.HTTP_202_ACCEPTED)
 

@@ -3,7 +3,7 @@ import { Card, CardActionArea, CardContent,
     CardMedia, Grid, Button } from '@mui/material'
 import bbImage from '../assets/img-bb.png'
 import cycleImage from '../assets/img-cycle.png'
-import fbImage from '../assets/img-fb.png'
+import fbImage from '../assets/img-fb.svg'
 import langImage from '../assets/img-lang.png'
 import otherImage from '../assets/img-other.png'
 import readImage from '../assets/img-reading.png'
@@ -76,7 +76,8 @@ const HobbySelectionCard = (props) => {
         <Grid item>
             <Card 
             sx={{
-                minWidth: 170
+                minWidth: 170,
+                maxWidth: 170
             }}
             onClick={handleClick}>
                 { props.selected === props.id ? <CheckCircleIcon /> : <br /> }

@@ -90,8 +90,7 @@ const Poll = (props) => {
         })
         .catch((error) => {
             const message = error?.response?.data?.detail
-            showSnackbar(message | 'Something went wrong',
-            'error')
+            showSnackbar(message, 'error')
         })
         .finally(() => {
 

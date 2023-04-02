@@ -34,7 +34,7 @@ class Hobby(models.Model):
     recurrence = models.IntegerField(default=0, 
                     choices=RECURRENCE_CHOICES)
 
-    final_date_time = models.DateTimeField(null=True)
+    final_date_time = models.DateTimeField(null=True, blank=True)
     
     created_on = models.DateTimeField(default=timezone.now)
 
