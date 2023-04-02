@@ -11,6 +11,7 @@ django-cors-headers = "*"
 icalendar = "*"
 recurring-ical-events = "*"
 python-dotenv = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
