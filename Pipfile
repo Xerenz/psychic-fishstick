@@ -10,6 +10,7 @@ python-social-auth = "*"
 django-cors-headers = "*"
 icalendar = "*"
 recurring-ical-events = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

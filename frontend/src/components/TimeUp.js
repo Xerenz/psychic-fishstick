@@ -119,14 +119,14 @@ const Poll = (props) => {
                                     color='secondary'
                                     variant='contained' />
                                 </CustomTooltip>
-                                {/* <Tooltip title='Previous votes ratio'>
+                                <Tooltip title='Previous votes ratio'>
                                     <Chip sx={{
                                         mx: 1
                                     }}
                                     label={formatRatio(cb.prev_votes_ratio)}
                                     color='secondary'
                                     variant='contained' />
-                                </Tooltip> */}
+                                </Tooltip>
                             </Grid>
                         )
                     }

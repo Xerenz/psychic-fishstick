@@ -23,7 +23,7 @@ class Hobby(models.Model):
         ]
     )
     participants = models.ManyToManyField(User, 
-                    related_name='my_hobbies')
+                    related_name='my_hobbies', blank=True)
     
     RECURRENCE_CHOICES = [
         (0, 'one time'),

@@ -136,7 +136,7 @@ def vote(request, *args, **kwargs):
         hobby.save()
 
     # Check if all users have casted their vote
-    if total_votes['total_votes'] == hobby.num_participants:
+    if total_votes['total_votes'] == hobby.number_of_participants:
         # Check for top 2
         max_vote_polls_2 = max_vote_polls[:2]
         if (max_vote_polls_2[0].votes / hobby.number_of_participants) == \
