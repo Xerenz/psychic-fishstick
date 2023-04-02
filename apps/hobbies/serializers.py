@@ -35,4 +35,4 @@ class HobbyRetrieveSerializer(serializers.ModelSerializer):
         model = Hobby
         fields = ['id', 'name', 'activity', 'duration', 'location', 
         'max_number_of_participants', 'participants', 
-        'number_of_participants', ]
+        'number_of_participants', 'final_date_time', ]
