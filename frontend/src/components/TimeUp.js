@@ -62,7 +62,7 @@ const Poll = (props) => {
     }
 
     const handleSubmit = () => {
-        authAxios.get(`${pollUrl}${selected}/poll`)
+        authAxios.get(`${pollUrl}${selected}/vote`)
         .then((response) => {
             showSnackbar('Your vote has been submitted', 'success')
             navigate('/dashboard')

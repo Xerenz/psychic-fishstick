@@ -9,5 +9,5 @@ urlpatterns = [
     path('<uuid:hobby_id>/create', views.create_schedule),
     path('<uuid:hobby_id>/poll', views.get_or_create_poll),
     path('<uuid:hobby_id>/finish', views.finish),
-    path('<int:poll_id>/vote', views.vote),
+    path('poll/<int:poll_id>/vote', views.vote),
 ]
