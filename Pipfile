@@ -12,7 +12,7 @@ icalendar = "*"
 recurring-ical-events = "*"
 python-dotenv = "*"
 psycopg2-binary = "*"
-gunicorn = "*"
+gunicorn = {extras = ["gevent"], version = "*"}
 
 [dev-packages]
 
