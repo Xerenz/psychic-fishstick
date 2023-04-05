@@ -22,7 +22,7 @@ class HobbyListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Hobby
-        fields = ['id', 'name', 'duration', 'location',
+        fields = ['id', 'name', 'duration', 'location', 'activity',
         'max_number_of_participants', 'number_of_participants', 
         'created_by_me', ]
 
