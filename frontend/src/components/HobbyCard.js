@@ -11,6 +11,16 @@ import RssFeedIcon from '@mui/icons-material/RssFeed';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import {ReactComponent as LocationIcon} from '../assets/Location.svg'
 import {ReactComponent as Person} from '../assets/Person.svg'
+import bbImage from '../assets/Basketball.png'
+import cycleImage from '../assets/Cycling.png'
+import fbImage from '../assets/Football.png'
+import langImage from '../assets/Language.png'
+import otherImage from '../assets/Others.png'
+import readImage from '../assets/Book club.png'
+import runImage from '../assets/Jogging.png'
+import shuttleImage from '../assets/Badminton.png'
+import teaImage from '../assets/Teatime.png'
+import yogaImage from '../assets/Yoga.png'
 import {ReactComponent as Calendar} from '../assets/Calendar.svg'
 import { authAxios, hobbyUrl } from '../api';
 import useSnackStore from '../store/SnackStore';
@@ -63,11 +73,19 @@ export const HobbyCard = ({ hobby, handleHobbiesUpdate }) => {
         })
     }
 
+    const getImage = () => {
+        console.log(hobby.activity)
+        let obj = data.find((item) => 
+        item.name === hobby.activity)
+        return obj.path
+    }
+
     return (
         <Grid item>
             {console.log(hobby)}
             <Card sx={{ 
-                minWidth: 325,
+                minWidth: 330,
+                maxWidth: 330,
                 backgroundColor: '#F6F5F8',
                 borderRadius: '20px'
             }}>
@@ -94,16 +112,25 @@ export const HobbyCard = ({ hobby, handleHobbiesUpdate }) => {
                     sx={{
                         cursor: 'pointer'
                     }}>
-                        <Typography variant="h5" component="div"
-                        color='primary'>
-                                {hobby.name}
-                        </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="primary.light">
-                            <LocationIcon styles={{
-                                height: '10px',
-                                width: '15px'
-                            }} />&nbsp;{hobby.location}
-                        </Typography>
+                        <Grid container direction={'row'}>
+                            <Grid item sx={{
+                                mr: 1
+                            }}>
+                                <img src={getImage()} height='60' width='60' />
+                            </Grid>
+                            <Grid item>
+                                <Typography variant="h5" component="div"
+                                color='primary'>
+                                        {hobby.name}
+                                </Typography>
+                                <Typography sx={{ mb: 1.5 }} color="primary.light">
+                                    <LocationIcon styles={{
+                                        height: '10px',
+                                        width: '15px'
+                                    }} />&nbsp;{hobby.location}
+                                </Typography>
+                            </Grid>
+                        </Grid>
                         <Typography variant="body2">
                             <Grid sx={{
                                 display: 'flex',
@@ -145,3 +172,56 @@ function formatDuration(value) {
     let n = value.length
     return value.substring(3, n)
 }
+
+const data = [
+    {
+        id: 1,
+        path: bbImage,
+        name: 'Basketball'
+    },
+    {
+        id: 2,
+        path: cycleImage,
+        name: 'Cycling'
+    },
+    {
+        id: 3,
+        path: fbImage,
+        name: 'Football'
+    },
+    {
+        id: 4,
+        path: langImage,
+        name: 'Language'
+    },
+    {
+        id: 5,
+        path: readImage,
+        name: 'Reading'
+    },
+    {
+        id: 6, 
+        path: runImage,
+        name: 'Running'
+    },
+    {
+        id: 7,
+        path: shuttleImage,
+        name: 'Badminton'
+    },
+    {
+        id: 8,
+        path: teaImage,
+        name: 'Teatime'
+    },
+    {
+        id: 9,
+        path: yogaImage,
+        name: 'Yoga'
+    },
+    {
+        id: 10,
+        path: otherImage,
+        name: 'Other'
+    },
+]
