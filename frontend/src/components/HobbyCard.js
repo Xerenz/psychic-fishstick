@@ -46,7 +46,21 @@ export const HobbyCard = ({ hobby, handleHobbiesUpdate }) => {
     }
 
     const handleDownloadIcs = () => {
-
+        authAxios.get(`${hobbyUrl}${hobby.id}/ics/`)
+        .then((response) => {
+            const {data} = response
+            let file = new Blob([data.ics_string], {
+                type: 'text/calendar'
+            })
+            let element = document.createElement('a')
+            element.href = URL.createObjectURL(file)
+            element.download = `${hobby.name}.ics`
+            element.click()
+        })
+        .catch((error) => {
+            const message = error.response.data.detail
+            showSnackbar(message, 'error')
+        })
     }
 
     return (
