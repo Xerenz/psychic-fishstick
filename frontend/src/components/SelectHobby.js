@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { Card, CardActionArea, CardContent, 
-    CardMedia, Grid, Button } from '@mui/material'
-import bbImage from '../assets/img-bb.png'
-import cycleImage from '../assets/img-cycle.png'
-import fbImage from '../assets/img-fb.svg'
-import langImage from '../assets/img-lang.png'
-import otherImage from '../assets/img-other.png'
-import readImage from '../assets/img-reading.png'
-import runImage from '../assets/img-run.png'
-import shuttleImage from '../assets/img-shuttle.png'
-import teaImage from '../assets/img-tea.png'
-import yogaImage from '../assets/img-yoga.png'
+    CardMedia, Grid, Button, Typography } from '@mui/material'
+import bbImage from '../assets/Basketball.png'
+import cycleImage from '../assets/Cycling.png'
+import fbImage from '../assets/Football.png'
+import langImage from '../assets/Language.png'
+import otherImage from '../assets/Others.png'
+import readImage from '../assets/Book club.png'
+import runImage from '../assets/Jogging.png'
+import shuttleImage from '../assets/Badminton.png'
+import teaImage from '../assets/Teatime.png'
+import yogaImage from '../assets/Yoga.png'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import useSnackStore from '../store/SnackStore'
 
@@ -35,10 +35,21 @@ export default function SelectHobby(props) {
 
     return (
         <>
+            <Grid sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                mt: 5
+            }}>
+                <Typography variant='h4' 
+                color='primary'>
+                    What kind of hobby would you like to schedule
+                    with your friends?
+                </Typography>
+            </Grid>
             <Grid container
             spacing={5}
             sx={{
-                marginTop: '5%',
+                marginTop: '2%',
                 marginBottom: '20px',
                 justifyContent: 'center'
             }}>
