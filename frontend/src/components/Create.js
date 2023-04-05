@@ -10,6 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button'
+import { Menu, MenuItem } from '@mui/material'
 import useSnackStore from '../store/SnackStore'
 import { authAxios, hobbyUrl } from '../api';
 import SelectHobby from './SelectHobby'
@@ -17,6 +18,10 @@ import SelectHobby from './SelectHobby'
 export default function Create() {
     let navigate = useNavigate()
     const {showSnackbar} = useSnackStore((state) => state)
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const open = Boolean(anchorEl);
 
     const [page, setPage] = useState(0)
     const [hobby, setHobby] = useState('')
@@ -61,6 +66,7 @@ export default function Create() {
         let data = Object.fromEntries(formData)
         data = {...data, activity: hobby}
         data['duration'] = formatDuration(data['duration'])
+        data['recurrence'] = menuItems[selectedIndex]
 
         console.log(data)
 
@@ -77,6 +83,19 @@ export default function Create() {
             showSnackbar(message | 'Something went wrong', 
             'error')
         })
+    }
+
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    }
+
+    const handleMenuItemClick = (event, index) => {
+        setSelectedIndex(index)
+        setAnchorEl(null)
+    }
+    
+    const handleMenuClose = () => {
+        setAnchorEl(null);
     }
 
   return (
@@ -188,25 +207,46 @@ export default function Create() {
                 <Grid item>
                     <FormControl required>
                         <FormLabel>
+                            Select frequency of the event
+                        </FormLabel>
+                        <Button onClick={handleMenuClick}>
+                            { menuItems[selectedIndex] }
+                        </Button>
+                        <Menu anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleMenuClose} >
+                            {menuItems.map((option, index) => 
+                            <MenuItem 
+                            key={option}
+                            selected={index === selectedIndex}
+                            onClick={(event) => handleMenuItemClick(event, index)}>
+                                { option }
+                            </MenuItem>)}
+                        </Menu>
+                    </FormControl>
+                </Grid>
+                <Grid item>
+                    <FormControl required>
+                        <FormLabel>
                             Where are you planning to meet?
                         </FormLabel>
                         <TextField variant='standard' name='location' />
                     </FormControl>
                 </Grid>
-                    <Grid item>
-                        <FormControl>
-                            <Button variant='contained' color='secondary'
-                            onClick={() => setPage(0)}>
-                                Back
-                            </Button>
-                        </FormControl>
-                        <FormControl sx={{ mx: 2 }}>
-                            <Button variant='contained' color='secondary'
-                            type='submit'>
-                                Next
-                            </Button>
-                        </FormControl>
-                    </Grid>
+                <Grid item>
+                    <FormControl>
+                        <Button variant='contained' color='secondary'
+                        onClick={() => setPage(0)}>
+                            Back
+                        </Button>
+                    </FormControl>
+                    <FormControl sx={{ mx: 2 }}>
+                        <Button variant='contained' color='secondary'
+                        type='submit'>
+                            Next
+                        </Button>
+                    </FormControl>
+                </Grid>
             </Grid>
             <br />
         </Box>
@@ -237,4 +277,11 @@ const RadioButtonWithTextInput = (props) => {
         </Box>
     )
 }
+
+const menuItems = [
+    'Once',
+    'Daily',
+    'Weekly',
+    'Monthly'
+]
 

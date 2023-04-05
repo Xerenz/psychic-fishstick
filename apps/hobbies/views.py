@@ -80,8 +80,7 @@ class HobbyViewSet(viewsets.ModelViewSet):
 
         return Response(status=status.HTTP_202_ACCEPTED)
 
-    @action(methods=['GET', ], detail=True, 
-    renderer_classes=[PassthroughRenderer, ])
+    @action(methods=['GET', ], detail=True, )
     def ics(self, request, *args, **kwargs):
         hobby = self.get_object()
         
@@ -93,17 +92,9 @@ class HobbyViewSet(viewsets.ModelViewSet):
         ics = ICS(hobby)
         cal = ics.create_ics_cal()
 
-        print(cal)
-
-        f = open('cal.ics', 'wb')
-        f.write(cal.to_ical())
-        f.close()
-
-        f = open('cal.ics', 'rb')
-        f.seek(0)
-        response = FileResponse(f)
-        response['Content-Length'] = f.tell()
-        response['Content-Disposition'] = 'attachment; filename="%s"' % f.name
+        print(cal.to_ical())
             
-        return response
+        return Response({
+            'ics_string': cal.to_ical()
+        })
 
