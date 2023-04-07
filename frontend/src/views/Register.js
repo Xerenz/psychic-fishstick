@@ -19,11 +19,13 @@ import { authAxios, registerUrl } from '../api';
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function SignUp(props) {
   const {showSnackbar} = useSnackStore((state) => state)
   const {authenticate} = useAuthStore((state) => state)
   const navigate = useNavigate()
   const location = useLocation()
+
+  console.log(location.state)
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -42,6 +44,9 @@ export default function SignUp() {
         showSnackbar('Welcome to HobbyMate!', 'success')
         if (location.pathname !== '/register') {
           navigate(location.pathname)
+        }
+        else if (location.state) {
+          navigate(location.state.pathname)
         }
         else {
           navigate('/dashboard')

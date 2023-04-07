@@ -106,7 +106,11 @@ export default function Login() {
             alignItems='center'
             justifyContent='center'>
               <Grid item>
-                <Link to="/register" variant="body2">
+                <Link to='/register' 
+                state={{
+                  pathname: location.pathname
+                }} 
+                variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
