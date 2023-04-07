@@ -20,7 +20,7 @@ import { authAxios, createLinkUrl } from '../api';
 
 const HOST_NAME = window.location.hostname
 
-let PROTOCOL = 'https'
+let PROTOCOL = 'http'
 let PORT = ''
 if (process.env.NODE_ENV === 'development') {
     PROTOCOL = 'http'

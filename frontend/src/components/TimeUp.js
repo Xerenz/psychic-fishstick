@@ -55,7 +55,7 @@ const Poll = (props) => {
     const navigate = useNavigate()
 
     const formatRatio = (ratio) => {
-        return `${ratio * 100}%`
+        return `${ratio * 100}%`.slice(0, 4)
     }
 
     const handleCheck = (id) => {
