@@ -125,9 +125,9 @@ export default function LinkDialog(props) {
                     size='small'
                     value={link} 
                     readOnly />
-                    <IconButton onClick={handleCopy}>
+                    {/* <IconButton onClick={handleCopy}>
                         <ContentCopyIcon />
-                    </IconButton>
+                    </IconButton> */}
                 </Grid>
                 }
             </DialogContent>

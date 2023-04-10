@@ -38,8 +38,8 @@ class HobbyViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
 
     def list(self, request, *args, **kwargs):
-        creator_queryset = self.queryset.filter(creator=request.user.id)
-        part_queryset = self.queryset.filter(participants=request.user.id)
+        creator_queryset = self.queryset.filter(creator=request.user)
+        part_queryset = self.queryset.filter(participants=request.user)
         
         queryset = (creator_queryset | part_queryset).distinct()
         serializer = self.get_serializer(queryset, many=True, context={
